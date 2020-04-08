@@ -13,10 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'cars'], function () {
-    Route::put('/', 'CarController@index')->name('car.index');
-    Route::post('/store', 'CarController@store')->name('car.store');
-    Route::put('/show/{id}', 'CarController@show')->name('car.show');
-    Route::put('/update/{id}', 'CarController@update')->name('car.update');
-    Route::delete('/delete/{id}', 'CarController@delete')->name('car.delete');
+Auth::routes(['register' => false]);
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'cars'], function () {
+        Route::put('/', 'CarController@index')->name('car.index');
+        Route::post('/store', 'CarController@store')->name('car.store');
+        Route::put('/show/{id}', 'CarController@show')->name('car.show');
+        Route::put('/update/{id}', 'CarController@update')->name('car.update');
+        Route::delete('/delete/{id}', 'CarController@delete')->name('car.delete');
+    });
 });
